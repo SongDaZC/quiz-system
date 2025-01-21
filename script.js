@@ -38,7 +38,12 @@ function initializeQuiz(quizData) {
     // 確認ボタン
     const checkButton = document.createElement('button');
     checkButton.textContent = '回答を確認';
-    checkButton.onclick = () => checkAnswer(quizElement, quiz.answer, quiz.explanation);
+    checkButton.onclick = () =>
+      checkAnswer(
+        quizElement,
+        quiz.answer.map((a) => parseInt(a)), // JSONから正解の選択肢を数値に変換
+        quiz.explanation
+      );
     quizElement.appendChild(checkButton);
 
     // 解説
@@ -55,20 +60,23 @@ function initializeQuiz(quizData) {
 function checkAnswer(quizElement, correctAnswers, explanation) {
   const checkboxes = quizElement.querySelectorAll('.option-checkbox');
   const selectedAnswers = Array.from(checkboxes)
-    .filter(checkbox => checkbox.checked)
-    .map(checkbox => parseInt(checkbox.value));
+    .filter((checkbox) => checkbox.checked)
+    .map((checkbox) => parseInt(checkbox.value));
 
   const explanationElement = quizElement.querySelector('.explanation');
 
-  // 選択数を確認
+  // 正しい選択肢の数と選択された数が異なる場合
   if (selectedAnswers.length !== correctAnswers.length) {
-    alert(`選択肢の数が正しくありません。指示に従って${correctAnswers.length}つ選んでください。`);
-    explanationElement.textContent = '解説: 設問をよく読み、指示された数の選択肢を選んでください。';
+    alert(
+      `選択肢の数が正しくありません。指示に従って${correctAnswers.length}つ選んでください。`
+    );
+    explanationElement.textContent =
+      '解説: 設問をよく読み、指示された数の選択肢を選んでください。';
     explanationElement.classList.add('show');
     return;
   }
 
-  // 正答の確認（配列の内容と順序にかかわらず比較）
+  // 正答の確認（選択肢の順序に関係なく比較）
   const isCorrect =
     selectedAnswers.sort().toString() === correctAnswers.sort().toString();
 
