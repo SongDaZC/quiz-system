@@ -42,14 +42,14 @@ function initializeQuiz(quizData) {
       checkAnswer(
         quizElement,
         quiz.answer, // JSONのanswerが数値型なのでそのまま渡す
-        quiz.explanation
+        `${quiz.explanation1}<br>${quiz.explanation2}<br>${quiz.explanation3}`
       );
     quizElement.appendChild(checkButton);
 
     // 解説
     const explanation = document.createElement('div');
     explanation.className = 'explanation';
-    explanation.textContent = '';
+    explanation.innerHTML = ''; // HTML形式で初期化
     quizElement.appendChild(explanation);
 
     container.appendChild(quizElement);
@@ -70,7 +70,7 @@ function checkAnswer(quizElement, correctAnswers, explanation) {
     alert(
       `選択肢の数が正しくありません。指示に従って${correctAnswers.length}つ選んでください。`
     );
-    explanationElement.textContent =
+    explanationElement.innerHTML =
       '解説: 設問をよく読み、指示された数の選択肢を選んでください。';
     explanationElement.classList.add('show');
     return;
@@ -88,6 +88,6 @@ function checkAnswer(quizElement, correctAnswers, explanation) {
   }
 
   // 解説を表示
-  explanationElement.textContent = `解説: ${explanation}`;
+  explanationElement.innerHTML = `解説: ${explanation}`;
   explanationElement.classList.add('show');
 }
