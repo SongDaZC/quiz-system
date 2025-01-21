@@ -60,7 +60,7 @@ function checkAnswer(quizElement, correctAnswers, explanation) {
 
   const explanationElement = quizElement.querySelector('.explanation');
 
-  // 選択肢の数が正しいか確認
+  // 選択数を確認
   if (selectedAnswers.length !== correctAnswers.length) {
     alert(`選択肢の数が正しくありません。指示に従って${correctAnswers.length}つ選んでください。`);
     explanationElement.textContent = '解説: 設問をよく読み、指示された数の選択肢を選んでください。';
@@ -68,8 +68,10 @@ function checkAnswer(quizElement, correctAnswers, explanation) {
     return;
   }
 
-  // 回答の正否を確認
-  const isCorrect = selectedAnswers.sort().toString() === correctAnswers.sort().toString();
+  // 正答の確認（配列の内容と順序にかかわらず比較）
+  const isCorrect =
+    selectedAnswers.sort().toString() === correctAnswers.sort().toString();
+
   if (isCorrect) {
     alert('正解です！');
   } else {
