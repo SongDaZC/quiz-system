@@ -1,8 +1,10 @@
 // JSONファイルからクイズデータを読み込む
 fetch('quiz.json')
-  .then(response => response.json())
-  .then(data => initializeQuiz(data))
-  .catch(error => console.error('クイズデータの読み込みに失敗しました:', error));
+  .then((response) => response.json())
+  .then((data) => initializeQuiz(data))
+  .catch((error) =>
+    console.error('クイズデータの読み込みに失敗しました:', error)
+  );
 
 function initializeQuiz(quizData) {
   const container = document.getElementById('quiz-container');
@@ -41,7 +43,9 @@ function initializeQuiz(quizData) {
     checkButton.onclick = () =>
       checkAnswer(
         quizElement,
-        quiz.answer.map((a) => parseInt(a)), // JSONから正解の選択肢を数値に変換
+        Array.isArray(quiz.answer)
+          ? quiz.answer.map((a) => parseInt(a))
+          : [parseInt(quiz.answer)],
         quiz.explanation
       );
     quizElement.appendChild(checkButton);
