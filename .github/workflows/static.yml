@@ -4,24 +4,21 @@ name: Deploy static content to Pages
 on:
   # Runs on pushes targeting the specified branch
   push:
-    branches: ["main"] # 必要に応じて公開対象のブランチ名を変更
+    branches: ["main"] # 公開対象のブランチを指定
 
   # Allows manual execution from the Actions tab
   workflow_dispatch:
 
-# Permissions for GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Ensure only one concurrent deployment is active
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Deployment job
   deploy:
     environment:
       name: github-pages
@@ -29,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       # Configure GitHub Pages
@@ -37,11 +34,10 @@ jobs:
         uses: actions/configure-pages@v5
 
       # Upload the build artifact
-      - name: Upload artifact
+      - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Specify the build output directory (adjust as needed)
-          path: './dist' # 静的サイトのビルド成果物ディレクトリを指定
+          path: './dist' # ビルド成果物のディレクトリを正確に指定
 
       # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
