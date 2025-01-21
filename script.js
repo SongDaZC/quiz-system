@@ -41,7 +41,7 @@ function initializeQuiz(quizData) {
     checkButton.onclick = () =>
       checkAnswer(
         quizElement,
-        quiz.answer.map((a) => parseInt(a)), // JSONから正解の選択肢を数値配列として取得
+        quiz.answer, // JSONのanswerが数値型なのでそのまま渡す
         quiz.explanation
       );
     quizElement.appendChild(checkButton);
@@ -78,7 +78,8 @@ function checkAnswer(quizElement, correctAnswers, explanation) {
 
   // 正答の確認（選択肢の順序に関係なく比較）
   const isCorrect =
-    selectedAnswers.sort().toString() === correctAnswers.sort().toString();
+    selectedAnswers.sort((a, b) => a - b).toString() ===
+    correctAnswers.sort((a, b) => a - b).toString();
 
   if (isCorrect) {
     alert('正解です！');
