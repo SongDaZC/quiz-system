@@ -2,9 +2,7 @@
 fetch('quiz.json')
   .then((response) => response.json())
   .then((data) => initializeQuiz(data))
-  .catch((error) =>
-    console.error('クイズデータの読み込みに失敗しました:', error)
-  );
+  .catch((error) => console.error('クイズデータの読み込みに失敗しました:', error));
 
 function initializeQuiz(quizData) {
   const container = document.getElementById('quiz-container');
@@ -25,7 +23,7 @@ function initializeQuiz(quizData) {
       const optionElement = document.createElement('li');
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
-      checkbox.value = i;
+      checkbox.value = i + 1; // 選択肢のインデックスを1から始める
       checkbox.className = 'option-checkbox';
       optionElement.appendChild(checkbox);
 
@@ -43,9 +41,7 @@ function initializeQuiz(quizData) {
     checkButton.onclick = () =>
       checkAnswer(
         quizElement,
-        Array.isArray(quiz.answer)
-          ? quiz.answer.map((a) => parseInt(a))
-          : [parseInt(quiz.answer)],
+        quiz.answer.map((a) => parseInt(a)), // JSONから正解の選択肢を数値配列として取得
         quiz.explanation
       );
     quizElement.appendChild(checkButton);
@@ -69,7 +65,7 @@ function checkAnswer(quizElement, correctAnswers, explanation) {
 
   const explanationElement = quizElement.querySelector('.explanation');
 
-  // 正しい選択肢の数と選択された数が異なる場合
+  // 正しい選択肢数と比較
   if (selectedAnswers.length !== correctAnswers.length) {
     alert(
       `選択肢の数が正しくありません。指示に従って${correctAnswers.length}つ選んでください。`
